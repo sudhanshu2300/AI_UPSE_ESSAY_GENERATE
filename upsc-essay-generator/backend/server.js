@@ -26,7 +26,7 @@ Then, write a UPSC-level essay in a formal, analytical tone with a balanced pers
 Ensure logical flow, coherence, and adherence to UPSC standards.
 `;
 
-// Step 1: Generate the refined prompt
+// 🚀 Step 1: Generate the refined prompt
 app.post("/generate-prompt", async (req, res) => {
   try {
     const { topic, points } = req.body;
@@ -67,7 +67,7 @@ app.post("/generate-prompt", async (req, res) => {
   }
 });
 
-// Step 2: Generate Essay using the refined prompt
+// 🚀 Step 2: Generate Essay using the refined prompt
 app.post("/generate-essay", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -88,9 +88,13 @@ app.post("/generate-essay", async (req, res) => {
       headers: { "Content-Type": "application/json" },
     });
 
-    const essay =
+    let essay =
       response.data?.candidates?.[0]?.content?.parts?.[0]?.text ||
       "No response from AI. Please try again.";
+
+    // ✅ Fix: Replace `\n\n` (Paragraphs) with `<br/><br/>` for proper rendering
+    // ✅ Replace single `\n` (line breaks) with `<br/>`
+    essay = essay.replace(/\n\n/g, "<br/><br/>").replace(/\n/g, "<br/>");
 
     res.json({ essay });
   } catch (error) {
@@ -103,4 +107,4 @@ app.post("/generate-essay", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 2302;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

@@ -4,8 +4,6 @@ function App() {
   const [topic, setTopic] = useState("");
   const [keyPoints, setKeyPoints] = useState("");
   const [refinedPrompt, setRefinedPrompt] = useState("");
-  // eslint-disable-next-line no-unused-vars
-  const [approvedPrompt, setApprovedPrompt] = useState("");
   const [generatedEssay, setGeneratedEssay] = useState("");
   const [loadingPrompt, setLoadingPrompt] = useState(false);
   const [loadingEssay, setLoadingEssay] = useState(false);
@@ -162,7 +160,8 @@ function App() {
           }}
         >
           <h3>Generated Essay:</h3>
-          <p>{generatedEssay}</p>
+          {/* Correctly render the HTML response */}
+          <div dangerouslySetInnerHTML={{ __html: generatedEssay }} />
         </div>
       )}
     </div>
