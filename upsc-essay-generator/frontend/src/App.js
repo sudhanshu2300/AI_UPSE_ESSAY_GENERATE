@@ -25,7 +25,10 @@ function App() {
       });
 
       const data = await response.json();
-      setRefinedPrompt(data.refinedPrompt);
+      const cleanedPrompt = data.refinedPrompt
+        .replace(/<br\s*\/?>/g, "\n") // Replace <br> tags with new lines
+        .replace(/\*/g, ""); // Remove asterisks
+      setRefinedPrompt(cleanedPrompt);
     } catch (error) {
       console.error("Error fetching prompt:", error);
     }
@@ -42,9 +45,8 @@ function App() {
     setLoadingEssay(true);
     setGeneratedEssay(""); // Clear previous essay output
 
-    const finalPrompt = `Write an essay according to the given below prompt: ${refinedPrompt}`;
-
     try {
+      const finalPrompt = `Write an essay according to the given prompt:\n\n${refinedPrompt}`;
       const response = await fetch("http://localhost:2302/generate-essay", {
         method: "POST",
         headers: {
@@ -56,7 +58,7 @@ function App() {
       const data = await response.json();
 
       if (response.ok) {
-        setGeneratedEssay(data.essay);
+        setGeneratedEssay(data.essay.replace(/<br\s*\/?>/g, "\n"));
       } else {
         console.error("Error generating essay:", data.message);
         alert("Failed to generate essay. Please try again.");
@@ -130,6 +132,7 @@ function App() {
             backgroundColor: "#222",
             padding: "15px",
             borderRadius: "10px",
+            whiteSpace: "pre-line",
           }}
         >
           <h3>Refined Prompt:</h3>
@@ -159,11 +162,11 @@ function App() {
             backgroundColor: "#222",
             padding: "15px",
             borderRadius: "10px",
+            whiteSpace: "pre-line",
           }}
         >
           <h3>Generated Essay:</h3>
-          {/* Correctly render the HTML response */}
-          <div dangerouslySetInnerHTML={{ __html: generatedEssay }} />
+          <p>{generatedEssay}</p>
         </div>
       )}
     </div>
