@@ -25,12 +25,7 @@ function App() {
       });
 
       const data = await response.json();
-      // ✅ Fix: Convert newlines in refined prompt to HTML line breaks
-      const formattedPrompt = data.refinedPrompt
-        .replace(/\n\n/g, "<br/><br/>")
-        .replace(/\n/g, "<br/>");
-
-      setRefinedPrompt(formattedPrompt);
+      setRefinedPrompt(data.refinedPrompt);
     } catch (error) {
       console.error("Error fetching prompt:", error);
     }
@@ -47,13 +42,15 @@ function App() {
     setLoadingEssay(true);
     setGeneratedEssay(""); // Clear previous essay output
 
+    const finalPrompt = `Write an essay according to the given below prompt: ${refinedPrompt}`;
+
     try {
       const response = await fetch("http://localhost:2302/generate-essay", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: refinedPrompt }),
+        body: JSON.stringify({ prompt: finalPrompt }),
       });
 
       const data = await response.json();
@@ -136,7 +133,7 @@ function App() {
           }}
         >
           <h3>Refined Prompt:</h3>
-          <div dangerouslySetInnerHTML={{ __html: refinedPrompt }} />
+          <p>{refinedPrompt}</p>
 
           {/* Approve and Generate Essay Button */}
           <button
