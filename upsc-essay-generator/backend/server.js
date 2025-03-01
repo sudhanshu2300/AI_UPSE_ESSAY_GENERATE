@@ -53,9 +53,14 @@ app.post("/generate-prompt", async (req, res) => {
       headers: { "Content-Type": "application/json" },
     });
 
-    const refinedPrompt =
+    let refinedPrompt =
       response.data?.candidates?.[0]?.content?.parts?.[0]?.text ||
       "Failed to generate refined prompt.";
+
+    // ✅ Fix: Replace `\n\n` with `<br/><br/>` and `\n` with `<br/>`
+    refinedPrompt = refinedPrompt
+      .replace(/\n\n/g, "<br/><br/>")
+      .replace(/\n/g, "<br/>");
 
     res.json({ refinedPrompt });
   } catch (error) {

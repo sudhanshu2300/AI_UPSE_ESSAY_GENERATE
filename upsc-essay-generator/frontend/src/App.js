@@ -25,7 +25,12 @@ function App() {
       });
 
       const data = await response.json();
-      setRefinedPrompt(data.refinedPrompt);
+      // ✅ Fix: Convert newlines in refined prompt to HTML line breaks
+      const formattedPrompt = data.refinedPrompt
+        .replace(/\n\n/g, "<br/><br/>")
+        .replace(/\n/g, "<br/>");
+
+      setRefinedPrompt(formattedPrompt);
     } catch (error) {
       console.error("Error fetching prompt:", error);
     }
@@ -131,7 +136,7 @@ function App() {
           }}
         >
           <h3>Refined Prompt:</h3>
-          <p>{refinedPrompt}</p>
+          <div dangerouslySetInnerHTML={{ __html: refinedPrompt }} />
 
           {/* Approve and Generate Essay Button */}
           <button
