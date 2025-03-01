@@ -14,9 +14,9 @@ body {
   margin: 50px auto;
   padding: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Stack elements */
   align-items: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .title {
@@ -28,22 +28,24 @@ body {
 /* Flexbox for Input Fields */
 .input-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Ensure stacked layout */
   width: 100%;
   align-items: center;
+  gap: 10px; /* Added space between inputs */
 }
 
 .input-field,
 .textarea-field {
-  width: 90%;
+  width: 100%; /* Full width for better alignment */
+  max-width: 500px; /* Keep inputs manageable */
   padding: 12px;
-  margin: 10px 0;
   border-radius: 8px;
   border: none;
   font-size: 16px;
   outline: none;
   background: #222;
   color: #fff;
+  margin: 0; /* Removed unwanted margin */
 }
 
 .textarea-field {
@@ -51,7 +53,7 @@ body {
   resize: none;
 }
 
-/* Button Fix */
+/* Button Styling */
 .generate-btn {
   background-color: #f39c12;
   color: black;
@@ -62,7 +64,7 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
-  width: 90%;
+  width: 100%;
   max-width: 300px;
 }
 
@@ -71,6 +73,7 @@ body {
   transform: scale(1.05);
 }
 
+/* Output Boxes */
 .essay-box,
 .prompt-box {
   background: rgba(255, 255, 255, 0.1);
@@ -79,6 +82,8 @@ body {
   border-radius: 8px;
   text-align: left;
   line-height: 1.6;
+  width: 100%;
+  max-width: 500px;
 }
 
 .prompt-box {
@@ -90,24 +95,4 @@ body {
   color: red;
   font-size: 14px;
   margin-top: 10px;
-}
-
-@media (max-width: 768px) {
-  .container {
-    width: 90%;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .input-field,
-  .textarea-field {
-    width: 95%;
-  }
-
-  .generate-btn {
-    width: 95%;
-    font-size: 14px;
-  }
 }
